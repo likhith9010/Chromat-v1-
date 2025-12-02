@@ -1,0 +1,119 @@
+# Chromat Project Plan & Status
+
+## Goal
+Build an AI browser agent interface where a chat assistant lives alongside a fully functional multi-tab browser window.
+
+## Roadmap
+
+### Phase 1: UI/UX Prototype ✅ COMPLETED
+- [x] Initialize React + Vite project
+- [x] Implement Tailwind CSS styling (CDN)
+- [x] Build Header (Pro badge, Avatar, Delete button)
+- [x] Build Sidebar (Collapsible, History list, New Chat logic)
+- [x] Build Chat Area (Simulated AI responses, Action Status cards, Message bubbles)
+- [x] Build Chat Input (Separate component with send button, mic, attachment)
+- [x] Build Browser View UI (Address bar, Tabs, Navigation controls)
+- [x] Implement LocalStorage for chat history persistence
+
+### Phase 2: Functional Browser Integration ✅ COMPLETED
+- [x] Create "Browser View" component layout
+- [x] Implement Chat-specific browser state (URL persists per chat)
+- [x] Multi-tab support (Create, switch, close tabs)
+- [x] Default homepage (Google.com on startup)
+- [x] Attempt 1: Iframe implementation
+    - Result: Works for development/testing, fails for major sites (Google, YouTube) due to X-Frame-Options security
+- [x] Attempt 2: Electron Desktop App
+    - Result: SUCCESS - Full browser functionality with `<webview>` tag
+    - No iframe restrictions, real Chrome instance per tab
+
+### Phase 3: State Management & Persistence ✅ COMPLETED
+- [x] Browser URL state management (per chat)
+- [x] Tab state management (tabs array, active tab tracking)
+- [x] LocalStorage integration (chats, messages, browser state)
+- [x] Temporary state for non-active chats
+- [x] Chat history synchronization
+
+## Current Status - FULLY FUNCTIONAL ✅
+
+### Working Features:
+1. **Chat Interface:**
+   - Create new chats
+   - Switch between chat history
+   - Delete chats
+   - Simulated AI responses with action cards
+   - Message persistence
+
+2. **Browser Integration:**
+   - ✅ Multi-tab support (create, switch, close)
+   - ✅ Real Chrome browser (via Electron webview)
+   - ✅ Full website compatibility (Google, YouTube, etc.)
+   - ✅ Per-chat tab persistence
+   - ✅ Default Google.com homepage
+   - ✅ Address bar with URL input
+   - ✅ Browser controls (back, forward, refresh, home)
+
+3. **Dual Mode Support:**
+   - Web version (`npm run dev`): Uses iframe, limited by security policies, good for UI testing
+   - Electron version (`npm run electron`): Uses webview, full browser access, production-ready
+
+### Technical Stack:
+- **Frontend:** React 19 + Vite
+- **Styling:** Tailwind CSS (CDN)
+- **Icons:** Lucide React
+- **Desktop:** Electron 39
+- **State:** React useState + LocalStorage
+- **Browser Engine:** Chromium (via Electron webview)
+
+## Known Limitations:
+1. **Web Version (iframe):**
+   - Major websites block embedding (X-Frame-Options security header)
+   - Cannot bypass without backend proxy or browser extension
+   - Suitable only for development/testing
+
+2. **Electron Version:**
+   - No limitations - full browser access
+   - Recommended for production use
+
+## Next Steps (Future Enhancements):
+1. **Backend Integration (Phase 4 - Not Started):**
+   - Connect to actual AI backend (Python + Playwright)
+   - Real browser automation (clicking, typing, scrolling)
+   - Screenshot capture
+   - Element detection
+
+2. **Packaging & Distribution:**
+   - Add build scripts for production
+   - Create standalone .exe for Windows
+   - Create .app for macOS
+   - Auto-updater integration
+
+3. **Advanced Features:**
+   - Browser history per chat
+   - Bookmark management
+   - Screenshot annotations
+   - Cookie/session persistence
+   - Extension support
+
+## File Structure:
+```
+FRONTEND/
+├── electron/
+│   └── main.cjs          # Electron main process
+├── src/
+│   ├── components/
+│   │   ├── BrowserView.jsx   # Multi-tab browser (iframe/webview)
+│   │   ├── ChatArea.jsx      # Message display
+│   │   ├── ChatInput.jsx     # Message input
+│   │   └── Sidebar.jsx       # Chat history
+│   ├── App.jsx           # Main app logic
+│   └── main.jsx          # React entry
+├── package.json
+└── index.html
+
+BACKEND/                  # Empty (future automation layer)
+```
+
+## How to Run:
+- **Development (Web):** `npm run dev` - Opens in browser (localhost:5173)
+- **Desktop App:** `npm run electron` - Opens native window with full browser
+- **Both:** Shares same codebase, auto-detects environment
